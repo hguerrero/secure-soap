@@ -26,5 +26,34 @@
   <cxf:cxfEndpoint id="helloEndpoint"
                    address="/hello"
                    serviceClass="mx.redhat.fuse.demo.secure.soap.HelloWorld"
-                   wsdlURL="wsdl/hello.wsdl"/>
+                   wsdlURL="wsdl/hello.wsdl">
+
+    <cxf:inInterceptors>
+
+      <bean id="wss4jInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
+        <constructor-arg>
+          <map>
+            <entry key="action" value="UsernameToken"/>
+            <entry key="passwordType" value="PasswordText"/>
+          </map>
+        </constructor-arg>
+      </bean>
+      
+      <ref bean="authenticationInterceptor"/>
+
+    </cxf:inInterceptors>
+    
+    <cxf:properties>
+      <entry key="ws-security.validate.token" value="false"/>
+    </cxf:properties>
+
+  </cxf:cxfEndpoint>
+  
+  <bean id="authenticationInterceptor" class="org.apache.cxf.interceptor.security.JAASLoginInterceptor">
+    <property name="contextName" value="other"/>
+    <!-- if server does not throw exceptions in log
+    <property name="reportFault" value="true"/>
+     -->
+  </bean>
+  
 </beans>

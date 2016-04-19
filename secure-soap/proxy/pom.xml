@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>mx.redhat.fuse.demo</groupId>
+    <artifactId>secure-soap</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>secure-soap-proxy</artifactId>
+  <packaging>war</packaging>
+  
+  <properties>
+    <!-- other plugin versions -->
+    <version.surefire.plugin>2.10</version.surefire.plugin>
+    <version.war.plugin>2.1.1</version.war.plugin>
+  </properties>
+
+  <dependencies>
+  
+  	<dependency>
+  		<groupId>org.apache.camel</groupId>
+  		<artifactId>camel-core</artifactId>
+  	</dependency>
+
+  	<dependency>
+  		<groupId>org.apache.camel</groupId>
+  		<artifactId>camel-cxf</artifactId>
+  	</dependency>
+
+  	<dependency>
+  		<groupId>org.springframework</groupId>
+  		<artifactId>spring-web</artifactId>
+  	</dependency>
+  	
+  </dependencies>
+
+  <build>
+    <!-- Maven will append the version to the finalName (which is the name 
+         given to the generated war, and hence the context root) -->
+    <finalName>${project.artifactId}</finalName>
+    <plugins>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>${version.war.plugin}</version>
+        <configuration>
+          <!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      <!-- The JBoss AS plugin deploys your war to a local JBoss EAP container -->
+      <!-- To use, run: mvn package jboss-as:deploy 
+      <plugin>
+        <groupId>org.jboss.as.plugins</groupId>
+        <artifactId>jboss-as-maven-plugin</artifactId>
+        <version>${version.jboss.maven.plugin}</version>
+      </plugin>
+      -->
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-java2ws-plugin</artifactId>
+        <version>3.0.4.redhat-621084</version>
+        <executions>
+          <execution>
+            <id>process-classes</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>java2ws</goal>
+            </goals>
+            <configuration>
+              <className>io.fabric8.quickstarts.soap.secure.HelloWorld</className>
+              <genWsdl>true</genWsdl>
+              <attachWsdl>false</attachWsdl>
+              <verbose>true</verbose>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- 
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-codegen-plugin</artifactId>
+        <version>2.7.0</version>
+        <executions>
+          <execution>
+            <id>generate-sources</id>
+            <phase>generate-sources</phase>
+              <configuration>
+                <sourceRoot>${project.build.directory}/generated/cxf</sourceRoot>
+                <wsdlOptions>
+                  <wsdlOption>
+                    <wsdl>${basedir}/src/main/resources/wsdl/hello.wsdl</wsdl>
+                  </wsdlOption>
+                </wsdlOptions>
+              </configuration>
+            <goals>
+              <goal>wsdl2java</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+       -->
+    </plugins>
+  </build>
+  
+</project>

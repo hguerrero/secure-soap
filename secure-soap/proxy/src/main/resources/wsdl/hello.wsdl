@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="HelloWorldService" targetNamespace="http://soap.secure.demo.fuse.redhat.mx/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap.secure.demo.fuse.redhat.mx/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="HelloWorldService" targetNamespace="http://soap.secure.demo.fuse.redhat.mx/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://soap.secure.demo.fuse.redhat.mx/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
 <xs:schema xmlns:tns="http://soap.secure.demo.fuse.redhat.mx/" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://soap.secure.demo.fuse.redhat.mx/" version="1.0">
 
@@ -51,7 +51,7 @@
   </wsdl:binding>
   <wsdl:service name="HelloWorldService">
     <wsdl:port name="HelloWorldPort" binding="tns:HelloWorldServiceSoapBinding">
-      <soap:address location="http://localhost:8080/HelloWorldPort"/>
+      <soap:address location="http://localhost:9090/HelloWorldPort"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -50,17 +50,16 @@
         </configuration>
       </plugin>
       <!-- The JBoss AS plugin deploys your war to a local JBoss EAP container -->
-      <!-- To use, run: mvn package jboss-as:deploy 
+      <!-- To use, run: mvn package jboss-as:deploy --> 
       <plugin>
         <groupId>org.jboss.as.plugins</groupId>
         <artifactId>jboss-as-maven-plugin</artifactId>
         <version>${version.jboss.maven.plugin}</version>
       </plugin>
-      -->
       <plugin>
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-java2ws-plugin</artifactId>
-        <version>3.0.4.redhat-621084</version>
+        <version>${version.apache.cxf.plugin}</version>
         <executions>
           <execution>
             <id>process-classes</id>
@@ -69,10 +68,11 @@
               <goal>java2ws</goal>
             </goals>
             <configuration>
-              <className>io.fabric8.quickstarts.soap.secure.HelloWorld</className>
+              <className>mx.redhat.fuse.demo.secure.soap.HelloWorld</className>
               <genWsdl>true</genWsdl>
               <attachWsdl>false</attachWsdl>
               <verbose>true</verbose>
+              <outputFile>${project.build.resources[0].directory}/wsdl/hello.wsdl</outputFile>
             </configuration>
           </execution>
         </executions>

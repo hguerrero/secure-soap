@@ -17,36 +17,57 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:p="http://cxf.apache.org/policy"
        xsi:schemaLocation="
          http://www.springframework.org/schema/beans 
          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
          http://camel.apache.org/schema/cxf 
-         http://camel.apache.org/schema/cxf/camel-cxf.xsd">
+         http://camel.apache.org/schema/cxf/camel-cxf.xsd
+         http://cxf.apache.org/policy 
+         http://cxf.apache.org/schemas/policy.xsd">
+
+  <bean id="abstractLoggingInterceptor" abstract="true">
+    <property name="prettyLogging" value="true"/>
+  </bean>
+  
+  <bean id="loggingInInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor" parent="abstractLoggingInterceptor"/>
 
   <cxf:cxfEndpoint id="helloEndpoint"
                    address="/hello"
                    serviceClass="mx.redhat.fuse.demo.secure.soap.HelloWorld"
-                   wsdlURL="wsdl/hello.wsdl">
+                   wsdlURL="wsdl/hello.wsdl" 
+                   loggingFeatureEnabled="true">
 
     <cxf:inInterceptors>
-
+    
       <bean id="wss4jInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
         <constructor-arg>
           <map>
-            <entry key="action" value="UsernameToken"/>
+            <entry key="action" value="Encrypt Timestamp UsernameToken"/>
             <entry key="passwordType" value="PasswordText"/>
+            <entry key="decryptionPropFile" value="server-crypto.properties"/>
           </map>
         </constructor-arg>
       </bean>
       
       <ref bean="authenticationInterceptor"/>
 
+      <ref bean="loggingInInterceptor"/>
+
     </cxf:inInterceptors>
     
     <cxf:properties>
       <entry key="ws-security.validate.token" value="false"/>
+      <entry key="ws-security.encryption.properties" value="server-crypto.properties" />
     </cxf:properties>
-
+    
+    <cxf:features>
+      <p:policies>
+        <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" 
+            URI="classpath:/config/sigonly-policy.xml"/>
+      </p:policies>
+    </cxf:features>
+    
   </cxf:cxfEndpoint>
   
   <bean id="authenticationInterceptor" class="org.apache.cxf.interceptor.security.JAASLoginInterceptor">

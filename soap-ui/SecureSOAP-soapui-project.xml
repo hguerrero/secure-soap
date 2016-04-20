@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="f6a32b53-10d4-4e55-a1f1-34221c1b3110" activeEnvironment="Default" name="SecureSOAP" resourceRoot="${projectDir}" soapui-version="5.1.3" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="16d37260-f24e-4fca-bcf9-1f1e3efeb325" wsaVersion="NONE" name="HelloWorldServiceSoapBinding" type="wsdl" bindingName="{http://soap.secure.demo.fuse.redhat.mx/}HelloWorldServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="http://localhost:8080/secure-soap-proxy/soap/hello?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/secure-soap-proxy/soap/hello?wsdl"><con:part><con:url>http://localhost:8080/secure-soap-proxy/soap/hello?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="HelloWorldService" targetNamespace="http://soap.secure.demo.fuse.redhat.mx/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://soap.secure.demo.fuse.redhat.mx/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xs:schema elementFormDefault="unqualified" targetNamespace="http://soap.secure.demo.fuse.redhat.mx/" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="sayHi" type="tns:sayHi"/>
+      <xs:element name="sayHiResponse" type="tns:sayHiResponse"/>
+      <xs:complexType name="sayHi">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="name" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="sayHiResponse">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="return" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="sayHiResponse">
+    <wsdl:part element="tns:sayHiResponse" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="sayHi">
+    <wsdl:part element="tns:sayHi" name="parameters"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="HelloWorld">
+    <wsdl:operation name="sayHi">
+      <wsdl:input message="tns:sayHi" name="sayHi"></wsdl:input>
+      <wsdl:output message="tns:sayHiResponse" name="sayHiResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="HelloWorldServiceSoapBinding" type="tns:HelloWorld">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="sayHi">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="sayHi">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="sayHiResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="HelloWorldService">
+    <wsdl:port binding="tns:HelloWorldServiceSoapBinding" name="HelloWorldPort">
+      <soap:address location="http://localhost:8080/secure-soap-proxy/soap/hello"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/secure-soap-proxy/soap/hello</con:endpoint></con:endpoints><con:operation id="9534b732-0ecf-4cf0-9d0b-60ab9c91c50c" isOneWay="false" action="" name="sayHi" bindingOperationName="sayHi" type="Request-Response" outputName="sayHiResponse" inputName="sayHi" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="7b18738b-ebe4-44ae-93ce-095e14e91fb3" name="Request 1" outgoingWss="outgoing"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting><con:setting id="WsdlSettings@pretty-print-response-xml">true</con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/secure-soap-proxy/soap/hello</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soap="http://soap.secure.demo.fuse.redhat.mx/" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <soap:sayHi>
+         <!--Optional:-->
+         <name>World</name>
+      </soap:sayHi>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:preemptive>true</con:preemptive><con:authType>Preemptive</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://soap.secure.demo.fuse.redhat.mx/HelloWorld/sayHi"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer><con:crypto><con:source>clientKeystore.jks</con:source><con:password>cspass</con:password><con:type>KEYSTORE</con:type><con:defaultAlias>myclientkey</con:defaultAlias><con:aliasPassword>ckpass</con:aliasPassword></con:crypto><con:crypto><con:source>clientKeystore.jks</con:source><con:password>cspass</con:password><con:type>KEYSTORE</con:type></con:crypto><con:crypto><con:source>clientKeystore.jks</con:source><con:password>cspass</con:password><con:type>TRUSTSTORE</con:type></con:crypto><con:outgoing mustUnderstand="false"><con:name>outgoing</con:name><con:username/><con:password>Redhat1!</con:password><con:entry type="Username" username="user" password="Redhat1!"><con:configuration><addCreated>false</addCreated><addNonce>false</addNonce><passwordType>PasswordText</passwordType></con:configuration></con:entry><con:entry type="Timestamp"><con:configuration><timeToLive>300000</timeToLive><strictTimestamp>true</strictTimestamp></con:configuration></con:entry><con:entry type="Encryption" username="myclientkey" password="ckpass"><con:configuration><crypto>clientKeystore.jks</crypto><keyIdentifierType>3</keyIdentifierType><symmetricEncAlgorithm/><encKeyTransport/><embeddedKeyName>myclientkey</embeddedKeyName><embeddedKeyPassword>ckpass</embeddedKeyPassword><encryptionCanonicalization/><encryptSymmetricKey>true</encryptSymmetricKey><encryptionPart><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="name" value="Body"/>
+  <con:entry key="namespace" value="http://schemas.xmlsoap.org/soap/envelope/"/>
+  <con:entry key="id" value=""/>
+  <con:entry key="enc" value="Content"/>
+</xml-fragment>]]></encryptionPart><encryptionPart><![CDATA[<xml-fragment xmlns:con="http://eviware.com/soapui/config">
+  <con:entry key="name" value="UsernameToken"/>
+  <con:entry key="namespace" value="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"/>
+  <con:entry key="id" value=""/>
+  <con:entry key="enc" value="Element"/>
+</xml-fragment>]]></encryptionPart></con:configuration></con:entry></con:outgoing></con:wssContainer><con:oAuth2ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

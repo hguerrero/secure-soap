@@ -38,12 +38,19 @@
                    wsdlURL="wsdl/hello.wsdl" 
                    loggingFeatureEnabled="true">
 
-    <cxf:inInterceptors>
+    <cxf:features>
+      <p:policies>
+        <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" 
+            URI="classpath:/config/sigonly-policy.xml"/>
+      </p:policies>
+    </cxf:features>
     
+    <cxf:inInterceptors>
+    <!-- 
       <bean id="wss4jInInterceptor" class="org.apache.cxf.ws.security.wss4j.WSS4JInInterceptor">
         <constructor-arg>
           <map>
-            <entry key="action" value="Encrypt Timestamp UsernameToken"/>
+            <entry key="action" value="Timestamp UsernameToken Encrypt"/>
             <entry key="passwordType" value="PasswordText"/>
             <entry key="decryptionPropFile" value="server-crypto.properties"/>
           </map>
@@ -51,22 +58,17 @@
       </bean>
       
       <ref bean="authenticationInterceptor"/>
-
+ -->
       <ref bean="loggingInInterceptor"/>
 
     </cxf:inInterceptors>
     
     <cxf:properties>
-      <entry key="ws-security.validate.token" value="false"/>
       <entry key="ws-security.encryption.properties" value="server-crypto.properties" />
+      <entry key="ws-security.signature.properties" value="server-crypto.properties" />
+      <entry key="ws-security.validate.token" value="false"/>
+      <entry key="ws-security.encryption.username" value="myclientkey"/>
     </cxf:properties>
-    
-    <cxf:features>
-      <p:policies>
-        <wsp:PolicyReference xmlns:wsp="http://www.w3.org/ns/ws-policy" 
-            URI="classpath:/config/sigonly-policy.xml"/>
-      </p:policies>
-    </cxf:features>
     
   </cxf:cxfEndpoint>
   
